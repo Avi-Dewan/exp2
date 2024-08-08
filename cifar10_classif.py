@@ -163,7 +163,7 @@ if __name__ == "__main__":
     parser.add_argument('--batch_size', default=128, type=int)
     parser.add_argument('--num_classes', default=5, type=int)
     parser.add_argument('--model_name', type=str, default='resnet18_cifar10_classif_5')
-    parser.add_argument('--dataset_root', type=str, default='data/datasets/CIFAR/')
+    parser.add_argument('--dataset_root', type=str, default='./data/datasets/CIFAR/')
     parser.add_argument('--exp_root', type=str, default='./data/experiments/')
     args = parser.parse_args()
     args.cuda = torch.cuda.is_available()
