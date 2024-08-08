@@ -77,10 +77,11 @@ def test(model, test_loader, criterion, args):
         images = torch.cat([x, x_bar], dim=0)
         images, target = images.to(device), label.to(device)
         bsz = images.size(0)
-
+        
+        print(images.shape)
         #calculate loss
         features = model(images)
-
+        
         print(features.shape)
         f1, f2 = torch.split(features, [bsz, bsz], dim=0)
         features = torch.cat([f1.unsqueeze(1), f2.unsqueeze(1)], dim=1)
