@@ -32,7 +32,7 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
         for batch_idx, ((x, x_bar), label, idx) in enumerate(tqdm(train_loader)):
             images = torch.cat([x, x_bar], dim=0)
             images, target = images.to(device), label.to(device)
-            bsz = images.size(0)
+            bsz = target.size(0)
 
             #calculate loss
             optimizer.zero_grad()
@@ -76,13 +76,10 @@ def test(model, test_loader, criterion, args):
     for batch_idx, ((x, x_bar), label, idx) in enumerate(tqdm(test_loader)):
         images = torch.cat([x, x_bar], dim=0)
         images, target = images.to(device), label.to(device)
-        bsz = images.size(0)
+        bsz = target.size(0)
         
-        print(images.shape)
         #calculate loss
         features = model(images)
-        
-        print(features.shape)
         f1, f2 = torch.split(features, [bsz, bsz], dim=0)
         features = torch.cat([f1.unsqueeze(1), f2.unsqueeze(1)], dim=1)
         loss = criterion(features, target)
