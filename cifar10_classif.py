@@ -19,7 +19,7 @@ import numpy as np
 def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, args):
     optimizer = Adam(model.parameters(), lr=args.lr)
     exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=args.milestones, gamma=args.gamma)
-    criterion=nn.CrossEntropyLoss().cuda(device)
+    criterion=SupConLoss.cuda(device)
     train_losses = []
     eval_losses = []
 
