@@ -50,7 +50,7 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
 
             
         print('Train Epoch: {} Avg Loss: {:.4f} \t '.format(epoch, loss_record.avg))
-        avg_val_loss = test(model, eval_loader, criterion, args)
+        avg_val_loss = test(model, eval_loader, args)
 
         train_losses.append(loss_record.avg)
         eval_losses.append(avg_val_loss)
@@ -69,9 +69,10 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
 
 
 
-def test(model, test_loader, criterion, args):
+def test(model, test_loader, args):
     model.eval()
     loss_record = AverageMeter()
+    criterion = SupConLoss.cuda(device)
 
     for batch_idx, ((x, x_bar), label, idx) in enumerate(tqdm(test_loader)):
         images = torch.cat([x, x_bar], dim=0)
