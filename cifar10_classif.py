@@ -48,6 +48,8 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
             print(target.shape)
             print(target)
             loss = criterion(features, target)
+
+            print(loss)
             
             # update metric
             loss_record.update(loss.item(), bsz)
