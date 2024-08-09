@@ -43,6 +43,10 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
 
             f1, f2 = torch.split(features, [bsz, bsz], dim=0)
             features = torch.cat([f1.unsqueeze(1), f2.unsqueeze(1)], dim=1)
+            print(features.shape)
+            print(features)
+            print(target.shape)
+            print(target)
             loss = criterion(features, target)
             
             # update metric
