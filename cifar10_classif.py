@@ -61,7 +61,7 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
         eval_losses.append(avg_val_loss)
 
 
-        if epoch == 0 or (epoch+1) % 10 == 0:
+        if epoch == 0 or (epoch+1) % 50 == 0:
             plot_features(model, unlabeled_eval_loader, save_path, epoch+1, device, args)
 
             epoch_model_path = os.path.join(model_dir, f'{args.model_name}_epoch{epoch + 1}.pth')
@@ -155,11 +155,13 @@ def plot_loss(tr_loss, val_loss, save_path):
     plt.plot(val_loss, label='Validation Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
+    plt.ylim([0, max(tr_loss[1:]) + 5])  # Set y-axis limit to focus on the range of interest
     plt.legend()
     plt.title('Training and Validation Loss')
     plt.savefig(save_path + '/loss_plot.png')
     plt.close()
     print('Loss plot saved to ' + save_path + '/loss_plot.png')
+
 
 if __name__ == "__main__":
     import argparse
@@ -168,7 +170,7 @@ if __name__ == "__main__":
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--lr', type=float, default=0.1)
     parser.add_argument('--gamma', type=float, default=0.1)
-    parser.add_argument('--epochs', default=30, type=int) # 180
+    parser.add_argument('--epochs', default=300, type=int) # 180
     parser.add_argument('--milestones', default=[100, 150], type=int, nargs='+')
     parser.add_argument('--batch_size', default=128, type=int)
     parser.add_argument('--num_classes', default=5, type=int)
