@@ -146,7 +146,7 @@ def plot_features(model, test_loader, save_path, epoch, device,  args):
     plt.figure(figsize=(8, 6))
     plt.scatter(X_embedded[:, 0], X_embedded[:, 1], c=targets, cmap='viridis')
     plt.title("t-SNE Visualization of unlabeled Features on CIFAR-10 unlabelled set - epoch" + str(epoch))
-    plt.savefig(save_path+ '/' + args.dataset_name + '_epoch'+ str(epoch) + '.png')
+    plt.savefig(save_path+ '/tsne_epoch'+ str(epoch) + '.png')
 
 def plot_loss(tr_loss, val_loss, save_path):
     plt.figure()
