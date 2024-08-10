@@ -61,8 +61,8 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
         eval_losses.append(avg_val_loss)
 
 
-        if (epoch+1) % 2 == 0:
-            plot_features(model, unlabeled_eval_loader, save_path, epoch, device, args)
+        if epoch == 0 or (epoch+1) % 10 == 0:
+            plot_features(model, unlabeled_eval_loader, save_path, epoch+1, device, args)
 
             epoch_model_path = os.path.join(model_dir, f'{args.model_name}_epoch{epoch + 1}.pth')
             save_model(model, optimizer, exp_lr_scheduler, epoch+1, epoch_model_path)
@@ -147,6 +147,7 @@ def plot_features(model, test_loader, save_path, epoch, device,  args):
     plt.scatter(X_embedded[:, 0], X_embedded[:, 1], c=targets, cmap='viridis')
     plt.title("t-SNE Visualization of unlabeled Features on CIFAR-10 unlabelled set - epoch" + str(epoch))
     plt.savefig(save_path+ '/tsne_epoch'+ str(epoch) + '.png')
+    print('t-SNE plot saved to ' + save_path+ '/tsne_epoch'+ str(epoch) + '.png')
 
 def plot_loss(tr_loss, val_loss, save_path):
     plt.figure()
@@ -158,6 +159,7 @@ def plot_loss(tr_loss, val_loss, save_path):
     plt.title('Training and Validation Loss')
     plt.savefig(save_path + '/loss_plot.png')
     plt.close()
+    print('Loss plot saved to ' + save_path + '/loss_plot.png')
 
 if __name__ == "__main__":
     import argparse
@@ -166,7 +168,7 @@ if __name__ == "__main__":
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--lr', type=float, default=0.1)
     parser.add_argument('--gamma', type=float, default=0.1)
-    parser.add_argument('--epochs', default=5, type=int) # 180
+    parser.add_argument('--epochs', default=30, type=int) # 180
     parser.add_argument('--milestones', default=[100, 150], type=int, nargs='+')
     parser.add_argument('--batch_size', default=128, type=int)
     parser.add_argument('--num_classes', default=5, type=int)
