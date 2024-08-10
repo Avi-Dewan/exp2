@@ -57,7 +57,6 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
             # update model
             loss.backward()
             optimizer.step()
-            break
 
             
         print('Train Epoch: {} Avg Loss: {:.4f} \t '.format(epoch, loss_record.avg))
@@ -66,7 +65,6 @@ def train(model, train_loader, eval_loader, unlabeled_eval_loader, save_path, ar
         train_losses.append(loss_record.avg)
         eval_losses.append(avg_val_loss)
 
-        break
 
         if (epoch+1) % 2 == 0:
             plot_features(model, unlabeled_eval_loader, save_path, epoch, device, args)
