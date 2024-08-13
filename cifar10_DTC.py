@@ -196,6 +196,8 @@ def test(model, test_loader, args, tsne=False):
         idx = idx.data.cpu().numpy()
         feats[idx, :] = feat.cpu().detach().numpy()
         probs[idx, :] = prob.cpu().detach().numpy()
+        acc, nmi, ari = cluster_acc(targets.astype(int), preds.astype(int)), nmi_score(targets, preds), ari_score(targets, preds)
+    print('Test acc {:.4f}, nmi {:.4f}, ari {:.4f}'.format(acc, nmi, ari))
     if tsne:
         from sklearn.manifold import TSNE
         import matplotlib.pyplot as plt
