@@ -196,8 +196,10 @@ def test(model, test_loader, args, tsne=False):
         idx = idx.data.cpu().numpy()
         feats[idx, :] = feat.cpu().detach().numpy()
         probs[idx, :] = prob.cpu().detach().numpy()
-        acc, nmi, ari = cluster_acc(targets.astype(int), preds.astype(int)), nmi_score(targets, preds), ari_score(targets, preds)
+    acc, nmi, ari = cluster_acc(targets.astype(int), preds.astype(int)), nmi_score(targets, preds), ari_score(targets, preds)
     print('Test acc {:.4f}, nmi {:.4f}, ari {:.4f}'.format(acc, nmi, ari))
+    probs = torch.from_numpy(probs)
+
     if tsne:
         from sklearn.manifold import TSNE
         import matplotlib.pyplot as plt
@@ -229,8 +231,7 @@ if __name__ == "__main__":
     parser.add_argument('--n_clusters', default=5, type=int)
     parser.add_argument('--seed', default=1, type=int)
     parser.add_argument('--save_txt', default=False, type=str2bool, help='save txt or not', metavar='BOOL')
-    # parser.add_argument('--pretrain_dir', type=str, default='./data/experiments/cifar10_classif/resnet18_cifar10_classif_5.pth')
-    parser.add_argument('--pretrain_dir', type=str, default='./data/experiments/pretrained/resnet18_cifar10_classif_5.pth')
+    parser.add_argument('--pretrain_dir', type=str, default='./data/experiments/cifar10_classif/resnet18_cifar10_classif_5.pth')
     parser.add_argument('--dataset_root', type=str, default='./data/datasets/CIFAR/')
     parser.add_argument('--exp_root', type=str, default='./data/experiments/')
     parser.add_argument('--model_name', type=str, default='resnet18')
